@@ -1,31 +1,70 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+   <v-app id="app">
+      <template v-if="!$route.path.includes('login')">
+         <v-navigation-drawer v-model="drawer" fixed app>
+            <v-toolbar flat dark color="success">
+               <v-list>
+                  <v-list-tile>
+                     <v-list-tile-title class="title">
+                        Simply Clinical Software
+                     </v-list-tile-title>
+                  </v-list-tile>
+               </v-list>
+            </v-toolbar>
+            <v-list dense>
+               <v-list-tile @click="drawer = false;" to="/login">
+                  <v-list-tile-action>
+                     <v-icon>home</v-icon>
+                  </v-list-tile-action>
+                  <v-list-tile-content>
+                     <v-list-tile-title>Login</v-list-tile-title>
+                  </v-list-tile-content>
+               </v-list-tile>
+               <v-list-tile @click="drawer = false;">
+                  <v-list-tile-action>
+                     <v-icon>contact_mail</v-icon>
+                  </v-list-tile-action>
+                  <v-list-tile-content>
+                     <v-list-tile-title>Contact</v-list-tile-title>
+                  </v-list-tile-content>
+               </v-list-tile>
+            </v-list>
+         </v-navigation-drawer>
+         <v-toolbar color="primary" dark fixed app>
+            <v-toolbar-side-icon
+               @click.stop="drawer = !drawer;"
+            ></v-toolbar-side-icon>
+            <v-toolbar-title>Application</v-toolbar-title>
+         </v-toolbar>
+      </template>
+      <v-content>
+         <keep-alive :include="['Login']">
+            <router-view></router-view>
+         </keep-alive>
+      </v-content>
+   </v-app>
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+export default {
+  data: () => ({
+    drawer: false
+  }),
+  props: {
+    source: String
+  }
 }
-#nav {
-  padding: 30px;
-}
+</script>
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+<script>
+export default {
+   name: 'App',
+   data() {
+      return {
+         drawer: false,
+      };
+   },
+};
+</script>
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<style></style>
