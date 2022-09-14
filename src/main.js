@@ -1,15 +1,17 @@
+/* eslint-disable no-undef */
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import './registerServiceWorker'
 import vuetify from './plugins/vuetify'
 import VueRouter from 'vue-router'
-import Vuetify from 'vuetify'
+import Vuetify from '@/plugins/vuetify'
 
 import 'vuetify/dist/vuetify.min.css'
 
 import Login from './components/Login.vue'
 import Main from './components/Main'
+import Registrar from './components/Registrar'
 
 Vue.use(VueRouter)
 Vue.use(Vuetify, {
@@ -19,10 +21,15 @@ Vue.use(Vuetify, {
 })
 
 const router = new VueRouter({
+  mode: 'history',
   routes: [
     {
       path: '/login',
       component: Login
+    },
+    {
+      path: '/registrar',
+      component: Registrar
     },
     {
       path: '/main',
