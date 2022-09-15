@@ -6,7 +6,7 @@
                <v-flex xs12 sm8 md4>
                   <v-card class="elevation-12">
                      <v-toolbar dark color="primary">
-                        <v-toolbar-title>Login</v-toolbar-title>
+                        <v-toolbar-title>Register</v-toolbar-title>
                      </v-toolbar>
                      <v-card-text>
                         <v-form
@@ -16,7 +16,7 @@
                         >
                           <v-text-field
                             v-model="name"
-                            :counter="10"
+                            :counter="25"
                             :rules="nameRules"
                             label="Name"
                             required
@@ -29,50 +29,30 @@
                             required
                           ></v-text-field>
 
-                          <v-select
-                            v-model="select"
-                            :items="items"
-                            :rules="[v => !!v || 'Item is required']"
-                            label="Item"
+                          <v-text-field
+                            v-model="password"
+                            :append-icon="showPassword"
+                            :type="show1 ? 'text' : 'password'"
+                            :rules="passwordRules"
+                            label="Password"
+                            @click:append="show1 = !show1"
                             required
-                          ></v-select>
+                          ></v-text-field>
 
-                          <v-checkbox
-                            v-model="checkbox"
-                            :rules="[v => !!v || 'You must agree to continue!']"
-                            label="Do you agree?"
+                          <!-- <v-text-field
+                            v-model="confirmPassword"
+                            :type="show1 ? 'text' : 'password'"
+                            :rules="confirmPasswordRules"
+                            label="ConfirmPassword"
                             required
-                          ></v-checkbox>
+                          ></v-text-field> -->
 
-                          <v-btn
-                            :disabled="!valid"
-                            color="success"
-                            class="mr-4"
-                            @click="validate"
-                          >
-                            Validate
-                          </v-btn>
-
-                          <v-btn
-                            color="error"
-                            class="mr-4"
-                            @click="reset"
-                          >
-                            Reset Form
-                          </v-btn>
-
-                          <v-btn
-                            color="warning"
-                            @click="resetValidation"
-                          >
-                            Reset Validation
-                          </v-btn>
                         </v-form>
                      </v-card-text>
                      <v-card-actions>
-                        <v-btn color="primary" to="/Registrar">Registrar-se</v-btn>
+                        <v-btn color="primary" to="/Login">Cancel</v-btn>
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" to="/">Login</v-btn>
+                        <v-btn color="primary" @click="Register()">Confirm</v-btn>
                      </v-card-actions>
                   </v-card>
                </v-flex>
@@ -93,13 +73,27 @@ export default {
     name: '',
     nameRules: [
       v => !!v || 'Name is required',
-      v => (v && v.length <= 10) || 'Name must be less than 10 characters'
+      v => (v && v.length <= 25) || 'Name must be less than 10 characters'
     ],
     email: '',
     emailRules: [
       v => !!v || 'E-mail is required',
       v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
     ],
+    password: '',
+    show1: false,
+    passwordRules: [
+      v => !!v || 'Password is required',
+      v => (v && v.length >= 8) || 'Password must have 8+ characters',
+      v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character',
+      v => /(?=.*\d)/.test(v) || 'Must have one number',
+      v => /([!@$%])/.test(v) || 'Must have one special character [!@#$%]'
+    ],
+    // confirmPassword: '',
+    // confirmPasswordRules: [
+    //   (v) => !!v || 'Confirmation password is required',
+    //   (v) => (this.isConfirmPasswordEqual(v)) || 'Password and Confirmation Password must be equal'
+    // ],
     select: null,
     items: [
       'Item 1',
@@ -111,15 +105,20 @@ export default {
   }),
 
   methods: {
-    validate () {
-      this.$refs.form.validate()
-    },
-    reset () {
-      this.$refs.form.reset()
-    },
-    resetValidation () {
-      this.$refs.form.resetValidation()
+    Register () {
+      if (this.$refs.form.validate()) {
+        // metodo para registro
+      }
     }
+  },
+  computed: {
+    showPassword () {
+      return this.show1 ? 'mdi-eye' : 'mdi-eye-off'
+    }
+    // isConfirmPasswordEqual (v) {
+    //   return v === this.password
+    // }
+
   }
 }
 </script>
